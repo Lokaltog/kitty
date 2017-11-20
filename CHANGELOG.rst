@@ -15,6 +15,7 @@ version 0.6.0 [future]
   All future invocations simply open new top-level windows in the existing
   instance.
 
+- Drop the dependency on glfw (kitty now uses a modified, bundled copy of glfw)
 
 version 0.5.0 [2017-11-19]
 ---------------------------
