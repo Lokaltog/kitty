@@ -17,6 +17,8 @@ version 0.6.0 [future]
 
 - Drop the dependency on glfw (kitty now uses a modified, bundled copy of glfw)
 
+- Add an option to control the audio bell volume on X11 systems
+
 version 0.5.0 [2017-11-19]
 ---------------------------
 

@@ -249,6 +249,7 @@ type_map = {
     'use_system_wcwidth': to_bool,
     'macos_hide_titlebar': to_bool,
     'macos_option_as_alt': to_bool,
+    'x11_bell_volume': int,
 }
 
 for name in (
