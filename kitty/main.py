@@ -16,18 +16,13 @@ from .constants import isosx, iswayland, logo_data_file
 from .fast_data_types import (
     change_wcwidth, create_os_window, glfw_init, glfw_init_hint_string,
     glfw_terminate, install_sigchld_handler, set_default_window_icon,
-    set_logical_dpi, set_options
+    set_logical_dpi, set_options, GLFW_X11_WM_CLASS_NAME, GLFW_X11_WM_CLASS_CLASS
 )
 from .utils import (
     detach, end_startup_notification, get_logical_dpi,
     init_startup_notification, single_instance
 )
 from .window import load_shader_programs
-
-try:
-    from .fast_data_types import GLFW_X11_WM_CLASS_NAME, GLFW_X11_WM_CLASS_CLASS
-except ImportError:
-    GLFW_X11_WM_CLASS_NAME = GLFW_X11_WM_CLASS_CLASS = None
 
 
 def load_all_shaders():
@@ -97,6 +92,7 @@ def main():
         sys.setswitchinterval(1000.0)  # we have only a single python thread
     except AttributeError:
         pass  # python compiled without threading
+    base = os.path.dirname(os.path.abspath(__file__))
     if isosx:
         ensure_osx_locale()
     try:
@@ -135,10 +131,12 @@ def main():
             return
     opts = create_opts(args)
     change_wcwidth(not opts.use_system_wcwidth)
-    if GLFW_X11_WM_CLASS_CLASS is not None:
-        glfw_init_hint_string(GLFW_X11_WM_CLASS_CLASS, args.cls)
-    if not glfw_init():
+    glfw_module = 'cocoa' if isosx else 'x11'
+    if not glfw_init(os.path.join(base, 'glfw-{}.so'.format(glfw_module))):
         raise SystemExit('GLFW initialization failed')
+    if glfw_module == 'x11':
+        glfw_init_hint_string(GLFW_X11_WM_CLASS_CLASS, args.cls)
+        glfw_init_hint_string(GLFW_X11_WM_CLASS_NAME, args.cls)
     try:
         with setup_profiling(args):
             # Avoid needing to launch threads to reap zombies
