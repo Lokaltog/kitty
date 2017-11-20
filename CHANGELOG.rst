@@ -19,6 +19,9 @@ version 0.6.0 [future]
 
 - Add an option to control the audio bell volume on X11 systems
 
+- Add a command line switch to set the name part of the WM_CLASS window
+  property independently.
+
 version 0.5.0 [2017-11-19]
 ---------------------------
 
