@@ -214,6 +214,10 @@ def positive_float(x):
     return max(0, float(x))
 
 
+def unit_float(x):
+    return max(0, min(float(x), 1))
+
+
 def adjust_line_height(x):
     if x.endswith('%'):
         return float(x[:-1].strip()) / 100.0
@@ -250,6 +254,7 @@ type_map = {
     'macos_hide_titlebar': to_bool,
     'macos_option_as_alt': to_bool,
     'x11_bell_volume': int,
+    'background_opacity': unit_float,
 }
 
 for name in (
